@@ -82,9 +82,7 @@ public class SmooChat extends JavaPlugin implements Listener{
 					
 					if(args.length < 2 || args[1].equalsIgnoreCase("1")){
 						
-						player.sendMessage(ChatColor.WHITE + "/////////Page 1//////////");
-						player.sendMessage("");
-						player.sendMessage(ChatColor.DARK_AQUA + "SmooChat (v 3.0)");
+						player.sendMessage(ChatColor.DARK_AQUA + "SmooChat (v 3.0) - Help - Page 1 / 2");
 						player.sendMessage(ChatColor.GRAY + "SmooChat is the global chat system for OBAMCraft");
 						player.sendMessage("");
 						player.sendMessage(ChatColor.GOLD + "/chat");
@@ -99,14 +97,15 @@ public class SmooChat extends JavaPlugin implements Listener{
 						player.sendMessage(ChatColor.GOLD + "/chat leave <channel name>");
 						player.sendMessage(ChatColor.WHITE + "Let's you leave the specified channel if you are in it");
 						player.sendMessage("");
-						player.sendMessage(ChatColor.WHITE + "/////////Page 1/////////");
-						
-					}else if(args[1].equalsIgnoreCase("2")){
-						
-						player.sendMessage(ChatColor.WHITE + "/////////Page 2//////////");
-						player.sendMessage("");
 						player.sendMessage(ChatColor.GOLD + "/chat <channel name>");
 						player.sendMessage(ChatColor.WHITE + "Sets current active channel to specified channel");
+						player.sendMessage("");
+
+						
+					}else if(args[1].equalsIgnoreCase("2")){
+
+						player.sendMessage(ChatColor.DARK_AQUA + "SmooChat (v 3.0) - Help - Page 2 / 2");
+						player.sendMessage(ChatColor.GRAY + "SmooChat is the global chat system for OBAMCraft");
 						player.sendMessage("");
 						player.sendMessage(ChatColor.GOLD + "/pm <player name>");
 						player.sendMessage(ChatColor.WHITE + "Starts a PM session with the specified player");
@@ -120,7 +119,7 @@ public class SmooChat extends JavaPlugin implements Listener{
 						player.sendMessage(ChatColor.GOLD + "/reply <message>");
 						player.sendMessage(ChatColor.WHITE + "Sends a single message to the last person to send a PM to you.");
 						player.sendMessage("");
-						player.sendMessage(ChatColor.WHITE + "/////////Page 2/////////");
+
 						
 					}else{
 						
