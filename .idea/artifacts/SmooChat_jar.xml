@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="SmooChat:jar">
+    <output-path>$PROJECT_DIR$/../../Desktop/Compiled</output-path>
+    <root id="archive" name="SmooChat.jar">
+      <element id="module-output" name="SmooChat" />
+    </root>
+  </artifact>
+</component>

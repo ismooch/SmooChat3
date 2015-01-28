@@ -3,6 +3,8 @@ package co.obam.ismooch.smoochat;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import java.io.IOException;
+
 public class ChatSend {
 	
 	//I will only place notes in the sendGlobal method, as the other channel methods simply
@@ -13,7 +15,7 @@ public class ChatSend {
 	 * with a setting for a color. Will probably handle channel creation via MySQL to avoid needing 
 	 * a mirrored config on each server for cross server message sending
 	 */
-	public static void sendGlobal(Player player, String message){
+	public static void sendGlobal(Player player, String message) throws IOException {
 		
 		//declaring the prefix and sendMessage strings.
 		//they  are separate here so I can modify them separately.
@@ -77,12 +79,11 @@ public class ChatSend {
 		//Enhanced for loop to run through the appropriate channel and sending to the appropriate player
 		//Also sends to the console for proper log file adding
 		System.out.println(sendMessage);
-		
+
+		BungeeMessenger.sendCSChat("global", sendMessage);
 		for (Player get : ChatInteract.globalChannel){
-			
-			
-			
-			
+
+
 			if(!ChatInteract.chatOffPlayers.contains(get)){
 				
 				get.sendRawMessage(sendMessage);
@@ -104,7 +105,7 @@ public class ChatSend {
 			 */
 	}
 
-	public static void sendStaff(Player player, String message) {
+	public static void sendStaff(Player player, String message) throws IOException {
 		
 		String prefix;
 		String sendMessage;
@@ -139,6 +140,7 @@ public class ChatSend {
 		sendMessage = String.valueOf(prefix + ChatColor.LIGHT_PURPLE + ": " + message);
 		
 		System.out.println(sendMessage);
+		BungeeMessenger.sendCSChat("staff", sendMessage);
 		
 		for (Player get : ChatInteract.staffChannel){
 			
@@ -149,7 +151,7 @@ public class ChatSend {
 		
 	}
 
-	public static void sendSupporter(Player player, String message) {
+	public static void sendSupporter(Player player, String message) throws IOException {
 		
 		String prefix;
 		String sendMessage;
@@ -182,6 +184,7 @@ public class ChatSend {
 		}
 		
 		sendMessage = String.valueOf(prefix + ChatColor.BLUE + ": " + message);
+		BungeeMessenger.sendCSChat("supporter", sendMessage);
 		
 		System.out.println(sendMessage);
 		
@@ -206,7 +209,7 @@ public class ChatSend {
 		
 	}
 
-	public static void sendMechanic(Player player, String message) {
+	public static void sendMechanic(Player player, String message) throws IOException {
 		
 		String prefix;
 		String sendMessage;
@@ -241,6 +244,7 @@ public class ChatSend {
 		sendMessage = String.valueOf(prefix + ChatColor.YELLOW + ": " + message);
 		
 		System.out.println(sendMessage);
+		BungeeMessenger.sendCSChat("mechanic", sendMessage);
 		
 		for (Player get : ChatInteract.mechanicChannel){
 			

@@ -1,5 +1,6 @@
 package co.obam.ismooch.smoochat;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 import org.bukkit.ChatColor;
@@ -35,7 +36,8 @@ public class SmooChat extends JavaPlugin implements Listener{
 	
 	
 	public void onEnable(){
-		
+
+		new BungeeMessenger(this);
 		//registering event listener
 		getServer().getPluginManager().registerEvents(this, this);
 		
@@ -344,7 +346,7 @@ public class SmooChat extends JavaPlugin implements Listener{
 		 * TODO Add command values
 		 * 
 		 * TODO Add bungee checks for available players in other servers, use this for checking if a 
-		 * Private message can be find it's receiver on another server
+		 * Private message can be found it's receiver on another server
 		 */
 		
 		
@@ -376,7 +378,7 @@ public class SmooChat extends JavaPlugin implements Listener{
 	}
 	
 	@EventHandler
-	public void onChatEvent(AsyncPlayerChatEvent e){
+	public void onChatEvent(AsyncPlayerChatEvent e) throws IOException {
 		
 		//player casting for the chat event
 		Player player = e.getPlayer();
