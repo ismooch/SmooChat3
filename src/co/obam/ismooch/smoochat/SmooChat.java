@@ -3,6 +3,8 @@ package co.obam.ismooch.smoochat;
 import java.io.IOException;
 import java.util.HashMap;
 
+import org.apache.commons.lang.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -73,7 +75,39 @@ public class SmooChat extends JavaPlugin implements Listener{
 	//Command Handler
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
-		
+
+
+		if(cmd.getName().equalsIgnoreCase("tell")){
+
+			if(args.length < 1){
+
+				sender.sendMessage(ChatColor.RED + "You must specify a player!");
+				return true;
+
+			}else if(Bukkit.getPlayer(args[0]) != null){
+
+				if(args.length < 2) {
+
+					Player player = (Player) sender;
+					Player target = Bukkit.getPlayer(args[0]);
+					ChatInteract.setPrivate(player, target);
+					player.sendMessage(ChatColor.GREEN + "You are now in a conversation with " + ChatColor.YELLOW + target.getName());
+
+				}else{
+
+					String message = StringUtils.join(args ,  ' ' , 1 , args.length);
+					Player target = Bukkit.getPlayer(args[0]);
+					sender.sendMessage(ChatColor.DARK_PURPLE + "❝ " + ChatColor.LIGHT_PURPLE + sender.getName() + " ➽ " + target.getName() + ": " + ChatColor.GRAY + message + ChatColor.BOLD + ChatColor.DARK_PURPLE + " ❞");
+					target.sendMessage(ChatColor.DARK_PURPLE + "❝ " + ChatColor.LIGHT_PURPLE + sender.getName() + " ➽ " + target.getName() + ": " + ChatColor.GRAY + message + ChatColor.BOLD + ChatColor.DARK_PURPLE + " ❞");
+
+				}
+
+
+			}
+
+
+
+		}
 		if(cmd.getName().equalsIgnoreCase("chat")){
 			
 			if(sender instanceof Player){
@@ -83,7 +117,8 @@ public class SmooChat extends JavaPlugin implements Listener{
 				if(args.length < 1 || args[0].equalsIgnoreCase("help")){
 					
 					if(args.length < 2 || args[1].equalsIgnoreCase("1")){
-						
+
+						player.sendRawMessage(" ");
 						player.sendMessage(ChatColor.DARK_AQUA + "SmooChat (v 3.0) - Help - Page 1 / 2");
 						player.sendMessage(ChatColor.GRAY + "SmooChat is the global chat system for OBAMCraft");
 						player.sendMessage("");
@@ -106,6 +141,7 @@ public class SmooChat extends JavaPlugin implements Listener{
 						
 					}else if(args[1].equalsIgnoreCase("2")){
 
+						player.sendRawMessage(" ");
 						player.sendMessage(ChatColor.DARK_AQUA + "SmooChat (v 3.0) - Help - Page 2 / 2");
 						player.sendMessage(ChatColor.GRAY + "SmooChat is the global chat system for OBAMCraft");
 						player.sendMessage("");

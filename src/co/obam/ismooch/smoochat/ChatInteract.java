@@ -1,5 +1,6 @@
 package co.obam.ismooch.smoochat;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 import org.bukkit.entity.Player;
@@ -16,6 +17,9 @@ public class ChatInteract {
 	public static HashSet<Player> staffChannel = new HashSet<Player>();
 	public static HashSet<Player> mechanicChannel = new HashSet<Player>();
 	public static HashSet<Player> chatOffPlayers = new HashSet<Player>();
+	public static HashMap<Player, Player> privateChannel = new HashMap<Player, Player>();
+
+
 	
 	
 	//This method adds a specified player to all channels their permissions allow
@@ -154,4 +158,9 @@ public class ChatInteract {
 	}
 
 
+	public static void setPrivate(Player sender, Player target) {
+
+		privateChannel.put(sender , target);
+
+	}
 }
