@@ -1,9 +1,3 @@
 settings:
   server: "Default"
   prefix: "&c[Default]"
-  Database:
-    UserName: "user"
-    Password: "password"
-    IP: "localhost"
-    Name: "database"
-    Port: "3306"

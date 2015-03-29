@@ -10,6 +10,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
 import java.io.*;
+import java.util.List;
 
 /**
  * Created by iSmooch
@@ -17,8 +18,9 @@ import java.io.*;
 public class BungeeMessenger implements PluginMessageListener {
 
     public static Plugin plugin;
+    public static List<String> players;
 
-    public BungeeMessenger (Plugin p){
+    public BungeeMessenger(Plugin p) {
 
         p.getServer().getMessenger().registerOutgoingPluginChannel(p, "BungeeCord");
         p.getServer().getMessenger().registerIncomingPluginChannel(p, "BungeeCord", this);
@@ -49,10 +51,36 @@ public class BungeeMessenger implements PluginMessageListener {
 
 
     }
-    @Override
-    public void onPluginMessageReceived(String channel, Player player, byte[] message){
 
-        if(!channel.equals("BungeeCord")){
+
+    public static void sendCSPM(String person, String message) throws IOException {
+
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+        out.writeUTF("Forward");
+        out.writeUTF("ONLINE");
+        out.writeUTF("pm");
+
+
+        Player player = Iterables.getFirst(Bukkit.getOnlinePlayers(), null);
+        ByteArrayOutputStream msgbytes = new ByteArrayOutputStream();
+        DataOutputStream msgout = new DataOutputStream(msgbytes);
+        msgout.writeUTF(person);
+        msgout.writeUTF(message);
+
+
+        out.writeShort(msgbytes.toByteArray().length);
+        out.write(msgbytes.toByteArray());
+        if (player != null) {
+            player.sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
+        }
+
+
+    }
+
+    @Override
+    public void onPluginMessageReceived(String channel, Player player, byte[] message) {
+
+        if (!channel.equals("BungeeCord")) {
 
             return;
 
@@ -60,7 +88,8 @@ public class BungeeMessenger implements PluginMessageListener {
 
         ByteArrayDataInput in = ByteStreams.newDataInput(message);
         String subChannel = in.readUTF();
-        if(subChannel.equals("Chat")){
+
+        if (subChannel.equals("Chat")) {
 
             short len = in.readShort();
             byte[] msgbytes = new byte[len];
@@ -86,24 +115,24 @@ public class BungeeMessenger implements PluginMessageListener {
                     get.sendRawMessage(sendMessage);
                 }
 
-            }else if(group != null && group.equals("global")) {
+            } else if (group != null && group.equals("global")) {
 
-                for (Player get : ChatInteract.globalChannel){
-
-                    get.sendRawMessage(sendMessage);
-
-                }
-            }else if(group != null && group.equals("mechanic")){
-
-                for (Player get : ChatInteract.mechanicChannel){
+                for (Player get : ChatInteract.globalChannel) {
 
                     get.sendRawMessage(sendMessage);
 
                 }
+            } else if (group != null && group.equals("mechanic")) {
 
-            }else if(group != null && group.equals("supporter")){
+                for (Player get : ChatInteract.mechanicChannel) {
 
-                for (Player get : ChatInteract.supporterChannel){
+                    get.sendRawMessage(sendMessage);
+
+                }
+
+            } else if (group != null && group.equals("supporter")) {
+
+                for (Player get : ChatInteract.supporterChannel) {
 
                     get.sendRawMessage(sendMessage);
 
@@ -115,8 +144,38 @@ public class BungeeMessenger implements PluginMessageListener {
         }
 
 
+        if (subChannel.equals("pm")) {
+
+            short len = in.readShort();
+            byte[] msgbytes = new byte[len];
+            in.readFully(msgbytes);
+
+            DataInputStream msgin = new DataInputStream(new ByteArrayInputStream(msgbytes));
+            String person = null;
+            try {
+                person = msgin.readUTF();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            String sendMessage = null;
+            try {
+                sendMessage = msgin.readUTF();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
 
+            for (Player get : Bukkit.getServer().getOnlinePlayers()) {
+
+                if (get.getName().equalsIgnoreCase(person)) {
+
+                    get.sendRawMessage(sendMessage);
+
+                }
+
+            }
+
+        }
 
 
     }
